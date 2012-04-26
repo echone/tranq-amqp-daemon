@@ -1,1 +1,7 @@
-//Server and Daemon side of trnq-amqp service
+//Server and Daemon side of tranq-amqp service
+// a PHP client-server system, based on rabbitmq-server (AMQP protocol)
+// It would accept multimedia file via web based php upload page 
+// and send $data, inserted in the upload form, to one or more tranq-server who have ffmpeg installed, via amqp message 
+// The tranq-server pick up $data and send is valor to ffmpeg
+// Rabbitmq server in write in erlang wich have a lowlevel code dev.
+// Rabbitmq "remeber" the $data in the message until the message has sent to his destination. 
