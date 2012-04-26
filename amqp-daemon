@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PIDDIR=/var/log/rabbit/
+FILE=/var/www/worker/daemon.php
+CONFIGFILE=/etc/php5/apache2/php.ini
+DAEMON=/usr/bin/php
+DESC=amqp-daemon
+NAME=amqp-daemon
+USERID=root
+GROUPID=root
+
+test -x $DAEMON || exit 0
+
+
+	case "$1" in
+		start)
+		
+        		echo -n "Starting $DESC: "
+			start-stop-daemon --start --quiet --chuid $USERID:$GRFILE1OUPID -p $PIDDIR/$DAEMON.pid\
+                        --exec $DAEMON -- -c $CONFIGFILE $FILE &2> /dev/null 
+                        
+			echo AMQP Daemon Started
+	       	;;
+
+		stop)
+        		echo -n "Stopping $DESC: "
+       	 		# Send TERM after 5 seconds, wait at most 30 seconds.
+        		start-stop-daemon --stop --oknodo --retry TERM/5/0/30 --quiet --exec $DAEMON
+			echo Stoppped
+        	;;
+
+		restart)
+        		echo -n "Restarting $DESC: "
+        		# Send TERM after 5 seconds, wait at most 30 seconds.
+        		start-stop-daemon --stop --oknodo --retry TERM/5/0/30 --quiet --exec $DAEMON
+			echo Stopped
+		
+                        echo -n "Starting $DESC: "
+                        start-stop-daemon --start --quiet --chuid $USERID:$GROUPID -p $PIDDIR/$DAEMON.pid\
+                        --exec $DAEMON -- -c $CONFIGFILE $FILE &2> /dev/null 
+                        echo AMQP Daemon Started 
+                ;;
+
+		*)
+        		echo "Usage: $0 {start|stop|restart}" >&2
+        		exit 1
+        	;;
+
+	esac
+	exit 0
+
